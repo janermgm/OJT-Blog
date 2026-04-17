@@ -1,0 +1,70 @@
+body { font-family: 'Poppins', sans-serif; background: #1E1E1E; }
+
+    /* Month Pills Transition */
+    .month-pill {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      font-weight: 600;
+      background-color: #fff9d0;
+      color: #195fc7;
+      border-radius: 9999px;
+      padding: 0.5rem 1.6rem;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .month-pill.active-pill {
+      background-color: #437ed6 !important;
+      color: white !important;
+      font-size: 1.15rem;
+      box-shadow: 0 8px 20px rgba(67, 126, 214, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Week Card Styling */
+    .week-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: #f5f5f5 !important;
+    }
+    .week-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+    }
+
+    /* ANIMATION: Smooth Content Switch */
+    @keyframes slideFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-switch {
+      animation: slideFadeIn 0.5s ease-out forwards;
+    }
+
+    /* Modal Adjustments */
+    .modal-content {
+      background-color: #fffdf0 !important;
+      border-radius: 30px !important;
+      overflow: hidden;
+    }
+    #modalBlogText {
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.7;
+    }
+    .gallery-img {
+      transition: transform 0.3s ease;
+    }
+    .gallery-img:hover {
+      transform: scale(1.05);
+    }
+    .image-grid-custom {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1rem;
+    }
