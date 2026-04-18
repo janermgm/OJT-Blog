@@ -46,11 +46,16 @@ const DEFAULT_MONTHS_DATA = {
         
       },
       {
-        days: 5, hours: 5,
-        blog: "Performed data entry and user access management. Assisted the staff in digitizing manual records to ensure the new system has a clean baseline of historical data.",
+        days: 5, hours: 50,
+        blog: "Performed da ta entry and user access management. Assisted the staff in digitizing manual records to ensure the new system has a clean baseline of historical data.",
         wfh: "",
         dateRange: "Mar 9 - Mar 13, 2025",
-
+        pictures: ["../images/March9.jpg", 
+                  "../images/march 10.jpg", 
+                  "../images/march 11.jpg", 
+                  "../images/march12.jpg", 
+                  "../images/.jpg", 
+        ]
       },
       {
         days: 3 , hours: 5,
@@ -197,7 +202,6 @@ function openModal(month, weekIndex) {
   document.getElementById("modalBlogText").innerHTML = (week.blog || "No entry yet.").replace(/\n/g, '<br>');
   document.getElementById("modalTotalHours").innerHTML = `Weekly Summary: ${week.hours} Worked Hours`;
 
-  // WFH Logic: Show only if data exists
   const wfhSection = document.getElementById("wfhSection");
   const wfhText = document.getElementById("modalWfhText");
   
@@ -218,8 +222,8 @@ function openModal(month, weekIndex) {
       pictures.forEach((imgUrl) => {
         const imgWrapper = document.createElement("div");
         imgWrapper.className = "overflow-hidden rounded-xl shadow-sm bg-gray-100 group relative";
-        
-        // Added a "Click to View" overlay on hover
+    
+
         imgWrapper.innerHTML = `
           <img src="${imgUrl}" class="gallery-img w-full h-32 object-cover cursor-pointer transition transform hover:scale-110">
           <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
