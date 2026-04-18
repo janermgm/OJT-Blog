@@ -37,7 +37,7 @@ const DEFAULT_MONTHS_DATA = {
         blog:  `For this week, I was tasked with assisting in clerical work related to learning materials. I was instructed and guided on how to perform my tasks. My first assignment was to organize basic documents, and I was initially given a module to work on. I worked closely with my assigned faculty member to organize and update their learning materials. 
         This included handling a module where I uploaded and arranged files in BULMS using the access provided to me. I also performed document conversions from PDF to Word format to ensure the materials were editable and properly formatted for future use.`,
         dateRange: "Mar 2 - Mar 6, 2025",
-        pictures: ["../images/March 2.jpg", 
+        pictures: ["../images/March2.jpg", 
                   "../images/March 3.jpg", 
                   "../images/March4.jpg", 
                   "../images/March5.jpg", 
