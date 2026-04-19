@@ -21,12 +21,12 @@ const DEFAULT_MONTHS_DATA = {
         wfh: `I continued my tasks remotely as we were on a work-from-home setup from February 25–27. During this time, I focused on improving the homepage prototype by refining its design and incorporating new ideas gathered from further research. 
         I explored additional UI patterns and layouts to enhance usability and functionality. This period allowed me to make significant progress in completing the homepage features and improving the overall design of the prototype.`, 
         dateRange: "Feb 23 - Feb 27, 2025",
-        pictures: ["../images/feb 23.w2.jpg", 
-                  "../images/feb24.w2.jpg", 
-                  "../images/feb 25.jpg", 
-                  "../images/feb26.jpg", 
-                  "../images/feb26w2.jpg", 
-                  "../images/feb 27.jpg"]
+        pictures: ["images/feb 23.w2.jpg", 
+                  "images/feb24.w2.jpg", 
+                  "images/feb 25.jpg", 
+                  "images/feb26.jpg", 
+                  "images/feb26w2.jpg", 
+                  "images/feb 27.jpg"]
       }
     ]
   },
@@ -37,12 +37,12 @@ const DEFAULT_MONTHS_DATA = {
         blog:  `For this week, I was assigned to assist with clerical tasks related to learning materials. I was provided with guidance and instructions on how to properly carry out these tasks. My initial task involved organizing basic documents, starting with a module assigned to me. 
         The first learning material consisted of nine modules, where I was tasked with transferring the learning content into a new document file. I collaborated closely with my assigned faculty member to organize and update the materials. I also edited and corrected other data, ensuring proper formatting throughout the document. I performed document conversions from PDF to Word format to make the files editable for future use.`,
         dateRange: "Mar 2 - Mar 6, 2025",
-        pictures: ["../images/March 2.jpg", 
-                  "../images/March 3.jpg", 
-                  "../images/March4.jpg", 
-                  "../images/March5.jpg", 
-                  "../images/march6.jpg", 
-                  "../images/march6.1.jpg"]
+        pictures: ["images/March 2.jpg", 
+                  "images/March 3.jpg", 
+                  "images/March4.jpg", 
+                  "images/March5.jpg", 
+                  "images/march6.jpg", 
+                  "images/march6.1.jpg"]
         
       },
       {
@@ -50,12 +50,12 @@ const DEFAULT_MONTHS_DATA = {
         blog: "Performed da ta entry and user access management. Assisted the staff in digitizing manual records to ensure the new system has a clean baseline of historical data.",
         wfh: "",
         dateRange: "Mar 9 - Mar 13, 2025",
-        pictures: ["../images/March9.jpg", 
-                  "../images/march 10.jpg", 
-                  "../images/march 11.jpg", 
-                  "../images/march12.jpg", 
-                  "../images/march12.1.jpg",
-                  "../images/march13.jpg" 
+        pictures: ["images/March9.jpg", 
+                  "images/march 10.jpg", 
+                  "images/march 11.jpg", 
+                  "images/march12.jpg", 
+                  "images/march12.1.jpg",
+                  "images/march13.jpg" 
         ]
       },
       {
