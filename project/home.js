@@ -15,7 +15,7 @@ const DEFAULT_MONTHS_DATA = {
         days: 5, hours: 41,
         blog: `During this week, our mentor conducted a meeting to discuss the tasks assigned to us, which included both clerical work and web development. We were assigned to different faculty members to better understand their workflows and processes. This allowed us to gain valuable insights that would guide us in developing a system tailored to the department’s needs.
 
-        One of our main tasks was to brainstorm possible features, modules, and the overall design of the proposed system. As part of this, we created a sample backdrop for our prototype. I began researching existing websites and user interface (UI) designs to gather ideas and inspiration for the system. These references helped me conceptualize and construct an appropriate UI design for the prototype.
+        One of our main tasks was to brainstorm possible features, modules, and the overall design of the proposed system. As part of this, we created a sample backdrop for our prototype. I began researching existing websites and user interface designs to gather ideas and inspiration for the system. These references helped me conceptualize and construct an appropriate UI design for the prototype.
 
         I focused on developing the homepage prototype, ensuring that its design aligns with the department’s required features and is user-friendly and accessible.`,
         wfh: `I continued my tasks remotely as we were on a work-from-home setup from February 25–27. During this time, I focused on improving the homepage prototype by refining its design and incorporating new ideas gathered from further research. 
@@ -34,15 +34,15 @@ const DEFAULT_MONTHS_DATA = {
     weeks: [
       {
         days: 5, hours: 60,
-        blog:  `For this week, I was tasked with assisting in clerical work related to learning materials. I was instructed and guided on how to perform my tasks. My first assignment was to organize basic documents, and I was initially given a module to work on. I worked closely with my assigned faculty member to organize and update their learning materials. 
-        This included handling a module where I uploaded and arranged files in BULMS using the access provided to me. I also performed document conversions from PDF to Word format to ensure the materials were editable and properly formatted for future use.`,
+        blog:  `For this week, I was assigned to assist with clerical tasks related to learning materials. I was provided with guidance and instructions on how to properly carry out these tasks. My initial task involved organizing basic documents, starting with a module assigned to me. 
+        The first learning material consisted of nine modules, where I was tasked with transferring the learning content into a new document file. I collaborated closely with my assigned faculty member to organize and update the materials. I also edited and corrected other data, ensuring proper formatting throughout the document. I performed document conversions from PDF to Word format to make the files editable for future use.`,
         dateRange: "Mar 2 - Mar 6, 2025",
-        pictures: ["../images/March2.jpg", 
+        pictures: ["../images/March 2.jpg", 
                   "../images/March 3.jpg", 
                   "../images/March4.jpg", 
                   "../images/March5.jpg", 
-                  "../images/feb26w2.jpg", 
-                  "../images/feb 27.jpg"]
+                  "../images/march6.jpg", 
+                  "../images/march6.1.jpg"]
         
       },
       {
@@ -54,7 +54,8 @@ const DEFAULT_MONTHS_DATA = {
                   "../images/march 10.jpg", 
                   "../images/march 11.jpg", 
                   "../images/march12.jpg", 
-                  "../images/.jpg", 
+                  "../images/march12.1.jpg",
+                  "../images/march13.jpg" 
         ]
       },
       {
@@ -194,7 +195,7 @@ function openModal(month, weekIndex) {
   if (!week) return;
 
  
-  document.getElementById("modalMonthTitle").innerText = `Log for ${month}`;
+  document.getElementById("modalMonthTitle").innerText = `This week of${month}`;
   document.getElementById("modalWeekSubtitle").innerHTML = `Week ${weekIndex+1} · ${month}`;
   document.getElementById("modalDays").innerText = week.days;
   document.getElementById("modalHours").innerText = week.hours;
