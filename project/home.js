@@ -9,7 +9,7 @@ const DEFAULT_MONTHS_DATA = {
         blog: `On the first day of our On-the-Job Training (OJT), we were introduced to the faculty members and support staff of the Bicol University Open University. We were given an orientation to familiarize us with the faculty and the processes involved in their work.
         After discussing these details, our mentor assigned each of us to a faculty member. We were initially tasked with performing clerical work. The faculty member assigned to me gave me the responsibility of organizing and fixing documents related to his learning materials.`,
         dateRange: "Feb 20, 2025",
-        pictures: ["../images/Feb 20.jpg", "../images/feb 20.1.jpg", "../images/feb 20.2.jpg"]
+        pictures: ["images/Feb 20.jpg", "images/feb 20.1.jpg", "images/feb 20.2.jpg"]
       },
       {
         days: 5, hours: 41,
