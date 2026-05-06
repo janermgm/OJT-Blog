@@ -1,25 +1,63 @@
-// ======================= FUNCTIONS & UI LOGIC =======================
+// ======================= UI & MODAL LOGIC (Minutes-Precise) =======================
 
-function computeTotalHours() {
-  let total = 0;
+function timeToMinutes(timeStr) {
+  if (!timeStr || typeof timeStr !== 'string') return 0;
+  const cleanedStr = timeStr.trim().toLowerCase();
+  const [time, modifier] = cleanedStr.split(/\s+/);
+  if (!time) return 0;
+  let [hours, minutes] = time.split(':').map(Number);
+  if (modifier === 'pm' && hours !== 12) hours += 12;
+  if (modifier === 'am' && hours === 12) hours = 0;
+  return hours * 60 + (minutes || 0);
+}
+
+function formatTime(totalMins) {
+  const h = Math.floor(totalMins / 60);
+  const m = totalMins % 60;
+  return `${h}h ${m}m`;
+}
+
+function computeWeekHours(week) {
+  if (!week.schedule || !week.schedule.length) return { hours: 0, mins: 0, totalMins: 0 };
+  let totalMins = 0;
+  week.schedule.forEach(day => {
+    const morningIn = timeToMinutes(day.morningIn);
+    const morningOut = timeToMinutes(day.morningOut);
+    const afternoonIn = timeToMinutes(day.afternoonIn);
+    const afternoonOut = timeToMinutes(day.afternoonOut);
+    if (morningOut > morningIn) totalMins += (morningOut - morningIn);
+    if (afternoonOut > afternoonIn) totalMins += (afternoonOut - afternoonIn);
+  });
+  return { hours: Math.floor(totalMins / 60), mins: totalMins % 60, totalMins: totalMins };
+}
+
+function computeTotalMinutes() {
+  let grandTotalMins = 0;
   MONTHS.forEach(m => {
     if (appData[m] && appData[m].weeks) {
-      appData[m].weeks.forEach(w => total += (Number(w.hours) || 0));
+      appData[m].weeks.forEach(w => { grandTotalMins += computeWeekHours(w).totalMins; });
     }
   });
-  return total;
+  return grandTotalMins;
 }
 
 function updateTotalHoursUI() {
   const el = document.getElementById("totalHoursDisplay");
-  if (el) el.innerText = computeTotalHours();
+  const bar = document.getElementById("progressBar");
+  const percentText = document.getElementById("progressPercent");
+  const totalRequiredHours = 486; 
+  const totalMins = computeTotalMinutes();
+  if (el) el.innerText = formatTime(totalMins);
+  const currentHoursDecimal = totalMins / 60;
+  const percentage = Math.min((currentHoursDecimal / totalRequiredHours) * 100, 100).toFixed(1);
+  if (bar) setTimeout(() => { bar.style.width = `${percentage}%`; }, 200);
+  if (percentText) percentText.innerText = `${percentage}%`;
 }
 
 function renderMonthPills() {
   const container = document.getElementById("monthPillsRight");
   if (!container) return;
   container.innerHTML = "";
-  
   MONTHS.forEach(month => {
     const pill = document.createElement("button");
     pill.className = `month-pill ${currentActiveMonth === month ? 'active-pill' : ''}`;
@@ -27,26 +65,12 @@ function renderMonthPills() {
     pill.onclick = () => {
       if (currentActiveMonth === month) return;
       currentActiveMonth = month;
-      
-      const cardContainer = document.getElementById("weekCardsContainer");
-      if (cardContainer) {
-        cardContainer.classList.remove('animate-switch');
-        void cardContainer.offsetWidth;
-        cardContainer.classList.add('animate-switch');
-      }
-      
       updateMonthHeader();
       renderWeekCards();
       renderMonthPills();
     };
     container.appendChild(pill);
   });
-}
-
-function openImagePreview(src) {
-  const previewImg = document.getElementById("fullPreviewImage");
-  if (previewImg) previewImg.src = src;
-  if (imagePreviewModal) imagePreviewModal.show();
 }
 
 function updateMonthHeader() {
@@ -59,104 +83,141 @@ function updateMonthHeader() {
 function renderWeekCards() {
   const container = document.getElementById("weekCardsContainer");
   if (!container) return;
+
+  // 1. Alisin ang class para ma-reset ang animation state
+  container.classList.remove("animate-switch");
+
   const weeks = appData[currentActiveMonth]?.weeks || [];
   container.innerHTML = "";
 
+  // 2. Magic Line: Pinupwersa ang browser na i-recognize ang pagbabago (Reflow)
+  void container.offsetWidth;
+
+  // 3. Ibalik ang class para mag-trigger ang slideFadeIn animation
+  container.classList.add("animate-switch");
+
   weeks.forEach((week, idx) => {
+    const weekTime = computeWeekHours(week);
     const card = document.createElement("div");
+    
+    // Ginagamit ang existing week-card classes mo
     card.className = "week-card w-[300px] h-[280px] bg-white rounded-3xl flex flex-col justify-center items-center shadow-lg p-5 relative border border-white/40";
+    
     card.innerHTML = `
       <span class="text-sm font-bold uppercase text-[#5999d4] mb-1">Week ${idx+1}</span>
       <span class="text-6xl font-black text-[#5999d4]">${(idx+1).toString().padStart(2,'0')}</span>
       <div class="mt-3 text-center flex flex-col items-center gap-2 w-full">
-        <span class="bg-[#437ed6] px-4 py-1 rounded-full text-white font-semibold text-xs">
-          ${week.dateRange || 'Date TBA'}
-        </span>
+        <span class="bg-[#437ed6] px-4 py-1 rounded-full text-white font-semibold text-xs">${week.dateRange || 'Date TBA'}</span>
         <div class="flex gap-2">
-          <span class="bg-[#eef2ff] px-3 py-1 rounded-full text-[#2c5282] font-semibold text-[10px]">
-            ${week.days} DAYS
-          </span>
-          <span class="bg-[#eef2ff] px-3 py-1 rounded-full text-[#2c5282] font-semibold text-[10px]">
-            ${week.hours} HOURS
-          </span>
+          <span class="bg-[#eef2ff] px-3 py-1 rounded-full text-[#2c5282] font-semibold text-[10px] uppercase">${week.days} Days</span>
+          <span class="bg-[#eef2ff] px-3 py-1 rounded-full text-[#2c5282] font-semibold text-[10px] uppercase">${weekTime.hours}H ${weekTime.mins}M</span>
         </div>
       </div>
-      <div class="absolute bottom-5 right-6 opacity-20">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
-      </div>
+      <div class="absolute bottom-5 right-6 opacity-20">🔍</div>
     `;
     card.onclick = () => openModal(currentActiveMonth, idx);
     container.appendChild(card);
   });
 }
 
+// GALLERY LOGIC WITH ANIMATION
+function renderGalleryWithNav(container, pictures) {
+  if (!pictures || !pictures.length) {
+    container.innerHTML = `<div class="text-center text-gray-400 p-4">No documentation images.</div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  const mainImg = document.createElement('img');
+  mainImg.src = pictures[0];
+  mainImg.className = 'main-doc-img';
+  
+  // Click to preview
+  mainImg.onclick = () => {
+    const previewImg = document.getElementById("fullPreviewImage");
+    if (previewImg) {
+      previewImg.src = mainImg.src;
+      if (imagePreviewModal) imagePreviewModal.show();
+    }
+  };
+
+  const thumbRow = document.createElement('div');
+  thumbRow.className = 'thumb-row mt-3';
+
+  pictures.forEach((imgUrl, idx) => {
+    const thumb = document.createElement('img');
+    thumb.src = imgUrl;
+    if (idx === 0) thumb.classList.add('active-thumb');
+
+    thumb.onclick = (e) => {
+      e.stopPropagation();
+      
+      mainImg.classList.add('fade-out');
+      
+      setTimeout(() => {
+        mainImg.src = imgUrl;
+        mainImg.classList.remove('fade-out');
+        
+        Array.from(thumbRow.children).forEach(t => t.classList.remove('active-thumb'));
+        thumb.classList.add('active-thumb');
+      }, 300);
+    };
+    thumbRow.appendChild(thumb);
+  });
+
+  container.appendChild(mainImg);
+  container.appendChild(thumbRow);
+}
+
 function openModal(month, weekIndex) {
   const week = appData[month]?.weeks[weekIndex];
   if (!week) return;
   
-  const monthTitle = document.getElementById("modalMonthTitle");
-  const weekSubtitle = document.getElementById("modalWeekSubtitle");
-  const daysSpan = document.getElementById("modalDays");
-  const hoursSpan = document.getElementById("modalHours");
-  const dateRangeSpan = document.getElementById("modalDateRange");
-  const blogText = document.getElementById("modalBlogText");
-  const totalHoursSpan = document.getElementById("modalTotalHours");
+  document.getElementById("modalMonthTitle").innerText = `This week of ${month}`;
+  document.getElementById("modalWeekSubtitle").innerText = `WEEK ${weekIndex + 1}`;
+  document.getElementById("modalDays").innerText = week.days;
+  document.getElementById("modalDateRange").innerText = week.dateRange || "--";
+  document.getElementById("modalBlogText").innerHTML = (week.blog || "No entry yet.").replace(/\n/g, '<br>');
+  
+  const weekTime = computeWeekHours(week);
+  document.getElementById("modalTotalHours").innerText = `Total Work Hours: ${weekTime.hours}h ${weekTime.mins}m`;
+  
   const wfhSection = document.getElementById("wfhSection");
-  const wfhText = document.getElementById("modalWfhText");
-  const galleryContainer = document.getElementById("dynamicWeekImages");
-  
-  if (monthTitle) monthTitle.innerText = `This week of ${month}`;
-  if (weekSubtitle) weekSubtitle.innerHTML = `Week ${weekIndex+1} · ${month}`;
-  if (daysSpan) daysSpan.innerText = week.days;
-  if (hoursSpan) hoursSpan.innerText = week.hours;
-  if (dateRangeSpan) dateRangeSpan.innerText = week.dateRange || "No date set";
-  if (blogText) blogText.innerHTML = (week.blog || "No entry yet.").replace(/\n/g, '<br>');
-  if (totalHoursSpan) totalHoursSpan.innerHTML = `Weekly Summary: ${week.hours} Worked Hours`;
-  
-  if (wfhSection && wfhText) {
-    if (week.wfh && week.wfh.trim() !== "") {
-      wfhSection.classList.remove("hidden");
-      wfhText.innerHTML = week.wfh.replace(/\n/g, '<br>');
-    } else {
-      wfhSection.classList.add("hidden");
-    }
+  if (week.wfh && week.wfh.trim() !== "") {
+    wfhSection.classList.remove("hidden");
+    document.getElementById("modalWfhText").innerHTML = week.wfh.replace(/\n/g, '<br>');
+  } else {
+    wfhSection.classList.add("hidden");
   }
   
-  if (galleryContainer) {
-    galleryContainer.innerHTML = "";
-    const pictures = week.pictures || [];
-    if (pictures.length === 0) {
-      galleryContainer.innerHTML = "<p class='text-gray-400 py-4'>No images available</p>";
-    } else {
-      pictures.forEach((imgUrl) => {
-        const imgWrapper = document.createElement("div");
-        imgWrapper.className = "overflow-hidden rounded-xl shadow-sm bg-gray-100 group relative";
-        imgWrapper.innerHTML = `
-          <img src="${imgUrl}" class="gallery-img w-full h-32 object-cover cursor-pointer transition transform hover:scale-110">
-          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-          </div>
-        `;
-        imgWrapper.onclick = () => openImagePreview(imgUrl);
-        galleryContainer.appendChild(imgWrapper);
-      });
-    }
+  const galleryContainer = document.getElementById("dynamicWeekImages");
+  renderGalleryWithNav(galleryContainer, week.pictures || []);
+  
+  const tableBody = document.getElementById("modalTableBody");
+  tableBody.innerHTML = "";
+  const daysList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+  if (week.schedule && week.schedule.length) {
+    week.schedule.forEach(dayEntry => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="day-col">${dayEntry.day}</td>
+        <td class="time-col">${dayEntry.morningIn}</td>
+        <td class="time-col">${dayEntry.morningOut}</td>
+        <td class="time-col">${dayEntry.afternoonIn}</td>
+        <td class="time-col">${dayEntry.afternoonOut}</td>
+      `;
+      tableBody.appendChild(row);
+    });
   }
   
   if (modalInstance) modalInstance.show();
 }
 
-// ======================= INITIALIZATION =======================
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize modals
-  const modalEl = document.getElementById("weekModal");
-  if (modalEl) modalInstance = new bootstrap.Modal(modalEl);
+  if (document.getElementById("weekModal")) modalInstance = new bootstrap.Modal(document.getElementById("weekModal"));
+  if (document.getElementById("imagePreviewModal")) imagePreviewModal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
   
-  const previewEl = document.getElementById("imagePreviewModal");
-  if (previewEl) imagePreviewModal = new bootstrap.Modal(previewEl);
-  
-  // Render UI
   renderMonthPills();
   updateMonthHeader();
   renderWeekCards();
