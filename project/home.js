@@ -113,7 +113,7 @@ function renderWeekCards() {
           <span class="bg-[#eef2ff] px-3 py-1 rounded-full text-[#2c5282] font-semibold text-[10px] uppercase">${weekTime.hours}H ${weekTime.mins}M</span>
         </div>
       </div>
-      <div class="absolute bottom-5 right-6 opacity-20">🔍</div>
+      <div class="absolute bottom-5 right-6 opacity-20"></div>
     `;
     card.onclick = () => openModal(currentActiveMonth, idx);
     container.appendChild(card);
@@ -195,7 +195,7 @@ function openModal(month, weekIndex) {
   
   const tableBody = document.getElementById("modalTableBody");
   tableBody.innerHTML = "";
-  const daysList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"];
   
   if (week.schedule && week.schedule.length) {
     week.schedule.forEach(dayEntry => {

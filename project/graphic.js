@@ -90,7 +90,7 @@
 
 function initShapes() {
   shapes = [];
-  const colors = ['#dbffda', '#ffd885', '#97bbe9', '#ffd6f8', '#ffffff'];
+  const colors = ['#e3fde2', '#ffd885', '#97bbe9', '#f8dcf3', '#ffffff'];
   
   for (let i = 0; i < 45; i++) {
     let type = ['sparkle', 'spiral', 'squiggle', 'star-four', 'circle', 'line'][Math.floor(Math.random() * 6)];
