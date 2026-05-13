@@ -12,7 +12,7 @@ const DEFAULT_MONTHS_DATA = {
         dateRange: "Feb 20, 2025",
         pictures: ["images/Feb 20.jpg", "images/feb 20.1.jpg", "images/feb 20.2.jpg"],
         schedule: [
-          { day: "Thursday", morningIn: "8:16 am", morningOut: "12:00 pm", afternoonIn: "1:00 pm", afternoonOut: "5:00 pm" }
+          { day: "Friday", morningIn: "8:16 am", morningOut: "12:00 pm", afternoonIn: "1:00 pm", afternoonOut: "5:00 pm" }
         ]
       },
       {
