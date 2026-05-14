@@ -65,7 +65,7 @@ const DEFAULT_MONTHS_DATA = {
 
 As part of my responsibilities, I successfully designed the event backdrop and also created an online evaluation form using Google Forms. This form will be used to collect feedback from participants after the seminar. These tasks helped me improve my technical skills, particularly in design and online form creation, as well as my ability to contribute to event planning and preparation.`,
         dateRange: "Mar 9 - Mar 15, 2025",
-        pictures: ["images/march9.jpg", "images/march9.1.jpg", "images/wait.jpg", "images/waitt.jpg", "images/mw2sunday.jpg", "images/march13.PNG"],
+        pictures: ["images/marchw2.jpg", "images/march9.1.jpg", "images/wait.jpg", "images/waitt.jpg", "images/mw2sunday.jpg", "images/march13.PNG"],
         schedule: [
           { day: "Monday", morningIn: "7:25 am", morningOut: "12:00 pm", afternoonIn: "12:40 pm", afternoonOut: "7:00 pm" },
           { day: "Tuesday", morningIn: "7:56 am", morningOut: "12:01 pm", afternoonIn: "12:40 pm", afternoonOut: "5:31 pm" },
