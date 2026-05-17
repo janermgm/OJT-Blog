@@ -223,3 +223,39 @@ document.addEventListener("DOMContentLoaded", () => {
   renderWeekCards();
   updateTotalHoursUI();
 });
+
+const modal = document.getElementById('profileModal');
+const modalContent = document.getElementById('profileModalContent');
+const openBtn = document.getElementById('profileTrigger');
+const closeBtn = document.getElementById('profileCloseBtn');
+
+// Function to open modal
+openBtn.addEventListener('click', () => {
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  
+  // Delay slightly to trigger CSS transitions
+  setTimeout(() => {
+    modal.classList.add('opacity-100');
+    modalContent.classList.add('scale-100', 'opacity-100');
+  }, 10);
+});
+
+// Function to close modal
+const closeModal = () => {
+  modal.classList.remove('opacity-100');
+  modalContent.classList.remove('scale-100', 'opacity-100');
+  
+  // Wait for transition to finish before hiding display
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }, 300);
+};
+
+closeBtn.addEventListener('click', closeModal);
+
+// Close on clicking outside the white card
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});

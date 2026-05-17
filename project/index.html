@@ -20,15 +20,42 @@
 
   <div class="relative z-10 w-full min-h-screen flex flex-col">
 
-    <div class="px-6 md:px-12 pt-9 pb-10">
+    <div class="px-6 md:px-12 pt-20 pb-20">
 
       <div class="flex flex-wrap justify-between items-center gap-5 mb-8">
 
         <div class="flex items-center gap-4">
 
-          <div class="w-40 h-40 rounded-full overflow-hidden border-[9px] border-[#b6c8f3]">
-            <img src="images/profile.jpg" alt="profile">
-          </div>
+        <div class="relative flex flex-col items-center group">
+         <!-- The Pop-up Bubble -->
+        <div class="absolute -top-12 bg-[#b6c8f3] text-blue-900 px-4 py-1 rounded-full text-sm font-bold animate-bounce shadow-lg cursor-default select-none after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-t-[#b6c8f3] z-10">
+         Click me!
+       </div>
+
+      <!-- Profile Image Trigger -->
+      <div id="profileTrigger" class="w-40 h-40 rounded-full overflow-hidden border-[9px] border-[#b6c8f3] cursor-pointer transition-transform hover:scale-105 active:scale-95 shadow-xl">
+    <img src="images/profile.jpg" alt="Profile Thumbnail" class="w-full h-full object-cover">
+  </div>
+
+  <!-- Modal Container -->
+  <div id="profileModal" class="fixed inset-0 z-[999] hidden items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+    
+    <!-- Modal Content -->
+    <div id="profileModalContent" class="relative max-w-2xl w-full scale-50 opacity-0 transition-all duration-300 ease-out">
+      
+      <!-- Card Container -->
+      <div class="bg-[#b6c8f3] p-4 rounded-3xl flex flex-col items-center">
+        <img src="images/jane.png" alt="Profile Preview" class="rounded-2xl max-h-[70vh] w-full object-contain">
+        
+        <!-- Close Button -->
+        <button id="profileCloseBtn" class="mt-4 mb-2 bg-[#437ed6] hover:bg-[#356bb3] text-white font-bold py-2 px-8 rounded-full transition-colors shadow-md flex items-center gap-2">
+          ✕ Close Preview
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
           <div>
             <p class="text-white font-bold md:text-2xl text-xl drop-shadow-md">
